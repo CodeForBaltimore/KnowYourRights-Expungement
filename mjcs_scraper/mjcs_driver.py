@@ -11,7 +11,7 @@ cases_df = pd.read_csv("casesearch-results.csv", header = None)
 cases = cases_df[0]
 
 #Create Scraper
-scraper = MJCS_Scraper()
+scraper = MJCS_Scraper(headless = False)
 #Accept Disclaimer to be able to submit requests
 scraper.accept_disclaimer()
 
@@ -20,13 +20,13 @@ scraper.search_case_id("10149U")
 
 #Load DF of cases and select the case numbers (500 samples)
 cases_df = pd.read_csv("casesearch-results.csv", header = None)
-cases = cases_df.iloc[0:100, 0]
+cases = cases_df.iloc[0:25, 0]
 
 #Iterate cases and submit POST requests
 results = {}
 bar = ShadyBar('Scraping', max=len(cases)) #Create Progress Bar
 for case_id in cases:
-	results[case_id] = scraper.search_case_id(case_id)
+	results[case_id] = scraper.seach_case_id_post(case_id)
 	bar.next()
 bar.finish()
 
